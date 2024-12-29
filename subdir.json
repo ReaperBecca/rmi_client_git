@@ -1,0 +1,18 @@
+{
+    "Home": {
+        "online": "https://reaperbecca.github.io/Brimstone_Games_Fan_Portal/pages",
+        "local": "./Home"
+    },
+    "Game": {
+        "local": "./Games",
+        "online": "https://reaperbecca.github.io/Brimstone_Games_Fan_Portal/pages"
+    },
+    "About": {
+        "local": "./About",
+        "online": "https://reaperbecca.github.io/Brimstone_Games_Fan_Portal/pages"
+    },
+    "Account": {
+        "local": "./Account",
+        "online": "https://reaperbecca.github.io/Brimstone_Games_Fan_Portal/pages"
+    }
+}
