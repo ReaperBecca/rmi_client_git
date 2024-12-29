@@ -1,5 +1,5 @@
 const { app } = require('electron');
-const { createWindow } = require('./window');
+const { windowManager } = require('./window');
 const fs = require('fs');
 const path = require('path');
 const https = require('https');
@@ -63,7 +63,7 @@ function loadDirectoryStructure() {
 
 app.on('ready', async () => {
     const directoryStructure = await loadDirectoryStructure();
-    createWindow();
+    windowManager.createMainWindow();
 });
 app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') {
