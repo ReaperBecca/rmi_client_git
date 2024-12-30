@@ -1,18 +1,24 @@
 {
+    "reaper://": {
+        "Value": "https://raw.githubusercontent.com/ReaperBecca/"
+    },
+    "media.ind/": {
+        "Value": "rmi_client_git/refs/heads/main/"
+    },
     "Home": {
-        "online": "https://reaperbecca.github.io/Brimstone_Games_Fan_Portal/pages",
-        "local": "./Home"
+        "Default": "Home/",
+        "local": null
     },
     "Game": {
-        "local": "./Games",
-        "online": "https://reaperbecca.github.io/Brimstone_Games_Fan_Portal/pages"
+        "Default": "Games/",
+        "local": null
     },
     "About": {
-        "local": "./About",
-        "online": "https://reaperbecca.github.io/Brimstone_Games_Fan_Portal/pages"
+        "Default": "About/",
+        "local": null
     },
     "Account": {
-        "local": "./Account",
-        "online": "https://reaperbecca.github.io/Brimstone_Games_Fan_Portal/pages"
+        "Default": "Account/",
+        "local": null
     }
 }
