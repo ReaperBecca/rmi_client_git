@@ -1,6 +1,7 @@
 const { BrowserWindow, Menu } = require('electron');
 const path = require('path');
 const fs = require('fs');
+const { buildPageUrl } = require('./preloader');
 
 class WindowManager {
     constructor() {
@@ -21,12 +22,9 @@ class WindowManager {
 
         mainWindow.maximize();
 
-        const homePath = config.Home.local || 
-                        buildPageUrl(config, config.Home.Default) || 
-                        'about:blank';
+        const homeUrl = buildPageUrl(config, 'Home');
+        mainWindow.loadURL(homeUrl);
 
-        mainWindow.loadURL(homePath);
-        
         this.setupMainWindowMenu(mainWindow);
         this.registerWindow('main', mainWindow, null);
 

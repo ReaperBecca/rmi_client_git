@@ -36,13 +36,14 @@ function getDefaultConfig() {
     };
 }
 
-function buildPageUrl(config, pagePath) {
-    if (!pagePath) {
+function buildPageUrl(config, pageKey) {
+    const pageConfig = config.pages[pageKey];
+    if (!pageConfig || !pageConfig.Default) {
         return 'about:blank';
     }
-    
-    const baseUrl = `${config.protocol["reaper://"].Value}${config.app_domain["media.ind/"].Value}`;
-    return `${baseUrl}${pagePath}`;
+
+    const baseUrl = `${config.protoocol["reaper://"].Value}${config.app_domain["media.ind/"].Value}`;
+    return `${baseUrl}${pageConfig.Default}`;
 }
 
 module.exports = {

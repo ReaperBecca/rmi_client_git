@@ -9,20 +9,22 @@
         "Value": "rmi_client_git/refs/heads/main/"
         }
     },
-    "Home": {
-        "Default": "Home/",
-        "local": null
-    },
-    "Game": {
-        "Default": "Games/",
-        "local": null
-    },
-    "About": {
-        "Default": "About/",
-        "local": null
-    },
-    "Account": {
-        "Default": "Account/",
-        "local": null
-    }
+    "pages": {
+        "Home": {
+            "Default": "Home/",
+            "local": null
+        },
+        "Game": {
+            "Default": "Games/",
+            "local": null
+        },
+        "About": {
+            "Default": "About/",
+            "local": null
+        },
+        "Account": {
+            "Default": "Account/",
+            "local": null
+        }
+    }    
 }
