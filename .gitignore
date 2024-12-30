@@ -1,0 +1,2 @@
+# Ignore main.js since it contains sensitive GitHub tokens
+main.js

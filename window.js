@@ -7,10 +7,7 @@ class WindowManager {
         this.windows = new Map();
     }
 
-    createMainWindow() {
-        const subdirConfig = JSON.parse(fs.readFileSync(path.join(__dirname, 'subdir.json'), 'utf8'));
-        const homePath = path.join(__dirname, subdirConfig.Home.local, 'home.html');
-
+    createMainWindow(config) {
         const mainWindow = new BrowserWindow({
             width: 800,
             height: 600,
@@ -24,12 +21,12 @@ class WindowManager {
 
         mainWindow.maximize();
 
-        if (fs.existsSync(homePath)) {
-            mainWindow.loadFile(homePath);
-        } else if (subdirConfig.Home.activeLink) {
-            mainWindow.loadURL(`${subdirConfig.Home.activeLink}/home.html`);
-        }
+        const homePath = config.Home.local || 
+                        buildPageUrl(config, config.Home.Default) || 
+                        'about:blank';
 
+        mainWindow.loadURL(homePath);
+        
         this.setupMainWindowMenu(mainWindow);
         this.registerWindow('main', mainWindow, null);
 
