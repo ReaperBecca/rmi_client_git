@@ -74,10 +74,11 @@ function buildPageUrl(config, pageKey) {
         return 'about:blank';
     }
 
-    const baseUrl = `${config.protocol["reaper://"].Value}${config.app_domain["media.ind/"].Value}`;
-    return `${baseUrl}${pageConfig.Default}`;
+    const protocol = config.protocol["reaper://"];
+    const domain = config.app_domain["reaper://media.ind/"];
+    
+    return `${protocol}${domain}${pageConfig.Default}`;
 }
-
 function initializeAppData() {
     const appDataPath = getAppDataPath();
     const fullAppDataPath = path.join(appDataPath, 'ReaperMediaIndustries');

@@ -1,5 +1,5 @@
 {
-    "protoocol": {
+    "protocol": {
         "reaper://": "https://raw.githubusercontent.com/ReaperBecca/",
         "app://": "%AppData%/ReaperMediaIndustries/"
     },
