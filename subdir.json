@@ -1,9 +1,13 @@
 {
-    "reaper://": {
+    "protoocol": {
+        "reaper://": {
         "Value": "https://raw.githubusercontent.com/ReaperBecca/"
+        }
     },
-    "media.ind/": {
+    "app_domain": {
+        "media.ind/": {
         "Value": "rmi_client_git/refs/heads/main/"
+        }
     },
     "Home": {
         "Default": "Home/",
