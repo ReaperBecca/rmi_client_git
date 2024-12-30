@@ -88,7 +88,7 @@ function buildPageUrl(config, pageKey) {
     return `${baseProtocol}${baseDomain}${pageConfig.Default}`;
 }function initializeAppData() {
     const appDataPath = getAppDataPath();
-    const fullAppDataPath = path.join(appDataPath, 'ReaperMediaIndustries');
+    const fullAppDataPath = path.join(appDataPath, "ReaperMediaIndustries/Saves/Settings");
 
     if (!fs.existsSync(fullAppDataPath)) {
         fs.mkdirSync(fullAppDataPath, { recursive: true });
