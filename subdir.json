@@ -12,19 +12,23 @@
     "pages": {
         "Home": {
             "Default": "Home/",
-            "local": null
+            "local": null,
+            "Themes": "Home/Themes/"
         },
         "Game": {
             "Default": "Games/",
-            "local": null
+            "local": null,
+            "Themes": "Games/Themes/"
         },
         "About": {
             "Default": "About/",
-            "local": null
+            "local": null,
+            "Themes": "About/Themes/"
         },
         "Account": {
             "Default": "Account/",
-            "local": null
+            "local": null,
+            "Themes": "Account/Themes/"
         }
     }    
 }
