@@ -81,12 +81,12 @@ function buildPageUrl(config, pageKey) {
         return 'about:blank';
     }
 
-    const protocol = config.protocol["reaper://"];
-    const domain = config.app_domain["reaper://media.ind/"];
+    // Direct access to string values from config
+    const baseProtocol = config.protocol["reaper://"];
+    const baseDomain = config.app_domain["reaper://media.ind/"];
     
-    return `${protocol}${domain}${pageConfig.Default}`;
-}
-function initializeAppData() {
+    return `${baseProtocol}${baseDomain}${pageConfig.Default}`;
+}function initializeAppData() {
     const appDataPath = getAppDataPath();
     const fullAppDataPath = path.join(appDataPath, 'ReaperMediaIndustries');
 
