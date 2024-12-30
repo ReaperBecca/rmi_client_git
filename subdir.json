@@ -1,34 +1,28 @@
 {
     "protoocol": {
-        "reaper://": {
-        "Value": "https://raw.githubusercontent.com/ReaperBecca/"
-        }
+        "reaper://": "https://raw.githubusercontent.com/ReaperBecca/",
+        "app://": "%AppData%/ReaperMediaIndustries/"
     },
     "app_domain": {
-        "media.ind/": {
-        "Value": "rmi_client_git/refs/heads/main/"
-        }
+        "reaper://media.ind/": "reaper://rmi_client_git/refs/heads/main/",
+        "app://media.ind/": "app://RMI_Client/"
     },
     "pages": {
         "Home": {
             "Default": "Home/",
-            "local": null,
-            "Themes": "Home/Themes/"
+            "Themes": "Themes/"
         },
         "Game": {
             "Default": "Games/",
-            "local": null,
-            "Themes": "Games/Themes/"
+            "Themes": "Themes/"
         },
         "About": {
             "Default": "About/",
-            "local": null,
-            "Themes": "About/Themes/"
+            "Themes": "Themes/"
         },
         "Account": {
             "Default": "Account/",
-            "local": null,
-            "Themes": "Account/Themes/"
+            "Themes": "Themes/"
         }
     }    
 }

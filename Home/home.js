@@ -9,19 +9,19 @@
 
       // Set up button click handlers
       buttons.homeButton.addEventListener('click', () => {
-          window.location.href = '../Home/home.html';
+          window.location.href = 'Home/';
       });
 
       buttons.gamesButton.addEventListener('click', () => {
-          window.location.href = '../Games/games.html';
+          window.location.href = 'Games/';
       });
 
       buttons.aboutButton.addEventListener('click', () => {
-          window.location.href = '../About/about.html';
+          window.location.href = 'About/';
       });
 
       buttons.accountButton.addEventListener('click', () => {
-          window.location.href = '../Account/account.html';
+          window.location.href = 'Account/';
       });
 
       // Keep the rest of your existing code for featured games and news updates
