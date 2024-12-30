@@ -59,15 +59,22 @@ function getAppDataPath() {
 
 function getDefaultConfig() {
     return {
-        protocol: { "reaper://": { Value: "" } },
-        app_domain: { "media.ind/": { Value: "" } },
-        Home: { Default: "", local: null },
-        Game: { Default: "", local: null },
-        About: { Default: "", local: null },
-        Account: { Default: "", local: null }
+        protocol: {
+            "reaper://": "https://raw.githubusercontent.com/ReaperBecca/",
+            "app://": "%AppData%/ReaperMediaIndustries/"
+        },
+        app_domain: {
+            "reaper://media.ind/": "reaper://rmi_client_git/refs/heads/main/",
+            "app://media.ind/": "app://RMI_Client/"
+        },
+        pages: {
+            Home: { Default: "Home/", Themes: "Themes/" },
+            Game: { Default: "Games/", Themes: "Themes/" },
+            About: { Default: "About/", Themes: "Themes/" },
+            Account: { Default: "Account/", Themes: "Themes/" }
+        }
     };
 }
-
 function buildPageUrl(config, pageKey) {
     const pageConfig = config.pages[pageKey];
     if (!pageConfig || !pageConfig.Default) {
