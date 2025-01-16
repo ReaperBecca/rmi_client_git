@@ -1,28 +1,17 @@
 {
-    "protocol": {
-        "reaper://": "https://raw.githubusercontent.com/ReaperBecca/",
-        "app://": "%AppData%/ReaperMediaIndustries/"
+    "Directories": {
+        "Native": [
+
+        ],
+        "ThirdParty": [
+
+        ],
+        "GameJams": [
+            "https://itch.io/jam/resolution-jam/entries"
+        ]
+        
     },
-    "app_domain": {
-        "reaper://media.ind/": "reaper://rmi_client_git/refs/heads/main/",
-        "app://media.ind/": "app://RMI_Client/"
-    },
-    "pages": {
-        "Home": {
-            "Default": "Home/",
-            "Themes": "Themes/"
-        },
-        "Game": {
-            "Default": "Games/",
-            "Themes": "Themes/"
-        },
-        "About": {
-            "Default": "About/",
-            "Themes": "Themes/"
-        },
-        "Account": {
-            "Default": "Account/",
-            "Themes": "Themes/"
-        }
-    }    
+    "Updates": {
+        "subdir": "https://raw.githubusercontent.com/ReaperBecca/rmi_client_git/refs/heads/main/subdir.json"
+    }
 }
