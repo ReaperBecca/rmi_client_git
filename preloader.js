@@ -86,7 +86,9 @@ function buildPageUrl(config, pageKey) {
     const baseDomain = config.app_domain["reaper://media.ind/"];
     
     return `${baseProtocol}${baseDomain}${pageConfig.Default}`;
-}function initializeAppData() {
+}
+
+function initializeAppData() {
     const appDataPath = getAppDataPath();
     const fullAppDataPath = path.join(appDataPath, "ReaperMediaIndustries/RMI_Client/Saves/Settings");
 
