@@ -1,0 +1,18 @@
+<div class="game-card" data-game-id="${gameId}">
+    <img src="${thumbnail || 'default-thumbnail.png'}" alt="${Name}" class="game-thumbnail">
+    <div class="game-info">
+        <h2 class="game-title">${Name}</h2>
+        <div class="game-stats-container">
+            <div class="game-stats">
+                <span>Version: ${Version}</span>
+                <span>Status: ${Completion}</span>
+                <span>Players: ${Players}</span>
+                <span>Genre: ${Genre.join(', ')}</span>
+                <span>Released: ${ReleaseDate}</span>
+            </div>
+            <div class="game-description">
+                ${Desc.join(' ')}
+            </div>
+        </div>
+    </div>
+</div>
