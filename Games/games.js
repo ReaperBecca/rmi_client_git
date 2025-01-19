@@ -1,108 +1,155 @@
-  const fs = require('fs');
-  const path = require('path');
-  const { createGameWindow } = require('../window.js');
+const fs = require('fs');
+const path = require('path');
+const { createGameWindow } = require('../window.js');
+const { ipcRenderer } = require('electron');
+const { initializeGameDirectories, findGameInfoFiles } = require('../preloader.js');
 
-  function scanForGames(baseDir) {
-      const games = [];
-      const directories = fs.readdirSync(baseDir);
+let currentView = 'list';
+let currentGameType = 'native';
+let gamesList = [];
 
-      directories.forEach(dir => {
-          const fullPath = path.join(baseDir, dir);
-          if (fs.statSync(fullPath).isDirectory()) {
-              const hasInfo = fs.existsSync(path.join(fullPath, 'info.json'));
+document.addEventListener('DOMContentLoaded', () => {
+    // Load games initially
+    loadGames();
+    
+    // Set up view toggles
+    setupViewToggles();
+    
+    // Set up game type toggles
+    setupGameTypeToggles();
+    
+    // Set up search functionality
+    setupSearch();
+    
+    // Set up navigation
+    setupNavigation();
+});
 
-              if (hasInfo) {
-                  const gameInfo = JSON.parse(fs.readFileSync(path.join(fullPath, 'info.json')));
+function loadGames() {
+    gamesList = findGameInfoFiles();
+    displayGames(gamesList);
+}
 
-                  // Extract the "Start" path from the gameInfo
-                  const startPath = gameInfo.Start ? path.join(fullPath, gameInfo.Start) : null;
+function displayGames(games) {
+    const gamesGrid = document.getElementById('gamesGrid');
+    gamesGrid.innerHTML = '';
+    
+    games.forEach(game => {
+        const gameCard = createGameCard(game);
+        gamesGrid.innerHTML += gameCard;
+    });
+    
+    // Add click handlers after rendering
+    addGameClickHandlers();
+}
 
-                  games.push({
-                      directory: dir,
-                      info: gameInfo,
-                      startPath: startPath, // Add the start path to the game object
-                      isGame: true
-                  });
-              }
-          }
-      });
-
-      return games;
-  }
-    document.addEventListener('DOMContentLoaded', () => {
-        const { ipcRenderer } = require('electron');
-
-        // Navigation handling
-        const buttons = {
-            homeButton: '../Home/home.html',
-            gamesButton: '../Games/games.html',
-            aboutButton: '../About/about.html',
-            accountButton: '../Account/account.html'
-        };
-
-        Object.entries(buttons).forEach(([buttonId, path]) => {
-            const button = document.getElementById(buttonId);
-            if (button) {
-                button.addEventListener('click', () => {
-                    window.location.href = path;
-                });
-            }
-        });
-
-        const gamesPath = path.join(__dirname);
-        const games = window.scanForGames(gamesPath); // Use the function from preload.js
-        const gamesGrid = document.getElementById('gamesGrid');
-        const listViewButton = document.getElementById('listViewButton');
-        const gridViewButton = document.getElementById('gridViewButton');
-
-        listViewButton.addEventListener('click', () => {
-            gamesGrid.classList.add('list-view');
-            gamesGrid.classList.remove('grid-view');
-        });
-
-        gridViewButton.addEventListener('click', () => {
-            gamesGrid.classList.add('grid-view');
-            gamesGrid.classList.remove('list-view');
-        });
-
-        games.forEach(game => {
-            const gameCard = document.createElement('div');
-            gameCard.className = 'game-card';
-
-            const description = Array.isArray(game.info.Desc) 
-                ? game.info.Desc.join('<br>') 
-                : game.info.Desc;
-      
-            gameCard.innerHTML = `
-                <div class="game-info">
-                    <h3 class="game-title">${game.directory}</h3>
-                    <div class="game-stats-container">
-                        <div class="game-stats">
-                            <span>👥 Players: ${game.info.Players}</span>
-                            <span>🏆 Achievements: ${game.info.Achievements}</span>
-                        </div>
-                        <div class="game-description">${description}</div>
+function createGameCard(game) {
+    return `
+        <div class="game-card" data-game-id="${game.path}">
+            <img src="${game.thumbnail || 'default-thumbnail.png'}" alt="${game.Name}" class="game-thumbnail">
+            <div class="game-info">
+                <h2 class="game-title">${game.Name}</h2>
+                <div class="game-stats-container">
+                    <div class="game-stats">
+                        <span>Version: ${game.Version}</span>
+                        <span>Status: ${game.Completion}</span>
+                        <span>Players: ${game.Players}</span>
+                        <span>Genre: ${game.Genre.join(', ')}</span>
+                        <span>Released: ${game.ReleaseDate}</span>
+                    </div>
+                    <div class="game-description">
+                        ${game.Desc.join(' ')}
                     </div>
                 </div>
-            `;
-              
-            gameCard.addEventListener('click', () => {
-                if (game.startPath) {
-                    createGameWindow(game.directory, game.startPath); // Pass the start path
-                }
-            });
-            gamesGrid.appendChild(gameCard);
-        });
+            </div>
+        </div>
+    `;
+}
 
-        // Search functionality
-        const searchInput = document.getElementById('gameSearch');
-        searchInput.addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase();
-            const gameCards = document.querySelectorAll('.game-card');
+function setupViewToggles() {
+    const listViewBtn = document.getElementById('listViewButton');
+    const gridViewBtn = document.getElementById('gridViewButton');
+    const gamesGrid = document.getElementById('gamesGrid');
+    
+    listViewBtn.addEventListener('click', () => {
+        currentView = 'list';
+        gamesGrid.className = 'games-grid list-view';
+        listViewBtn.classList.add('active');
+        gridViewBtn.classList.remove('active');
+    });
+    
+    gridViewBtn.addEventListener('click', () => {
+        currentView = 'grid';
+        gamesGrid.className = 'games-grid grid-view';
+        gridViewBtn.classList.add('active');
+        listViewBtn.classList.remove('active');
+    });
+}
 
-            gameCards.forEach(card => {
-                const title = card.querySelector('h3').textContent.toLowerCase();
-                card.style.display = title.includes(searchTerm) ? 'block' : 'none';
+function setupGameTypeToggles() {
+    const buttons = {
+        nativeGamesButton: 'native',
+        thirdPartyButton: 'thirdParty',
+        gameJamButton: 'gameJam'
+    };
+    
+    Object.entries(buttons).forEach(([buttonId, type]) => {
+        const button = document.getElementById(buttonId);
+        button.addEventListener('click', () => {
+            currentGameType = type;
+            // Update active states
+            Object.keys(buttons).forEach(id => {
+                document.getElementById(id).classList.remove('active');
             });
+            button.classList.add('active');
+            // Filter and display games
+            const filteredGames = filterGamesByType(gamesList, type);
+            displayGames(filteredGames);
         });
-  });
+    });
+}
+
+function setupSearch() {
+    const searchInput = document.getElementById('gameSearch');
+    searchInput.addEventListener('input', (e) => {
+        const searchTerm = e.target.value.toLowerCase();
+        const filteredGames = gamesList.filter(game => 
+            game.Name.toLowerCase().includes(searchTerm) ||
+            game.Genre.some(genre => genre.toLowerCase().includes(searchTerm)) ||
+            game.Desc.some(desc => desc.toLowerCase().includes(searchTerm))
+        );
+        displayGames(filteredGames);
+    });
+}
+
+function addGameClickHandlers() {
+    document.querySelectorAll('.game-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const gamePath = card.dataset.gameId;
+            const startPath = path.join(gamePath, 'www', 'index.html');
+            createGameWindow(path.basename(gamePath), startPath);
+        });
+    });
+}
+
+function setupNavigation() {
+    const buttons = {
+        homeButton: '../Home/home.html',
+        gamesButton: '../Games/games.html',
+        aboutButton: '../About/about.html',
+        accountButton: '../Account/account.html'
+    };
+
+    Object.entries(buttons).forEach(([buttonId, path]) => {
+        const button = document.getElementById(buttonId);
+        if (button) {
+            button.addEventListener('click', () => {
+                window.location.href = path;
+            });
+        }
+    });
+}
+
+function filterGamesByType(games, type) {
+    return games.filter(game => game.directoryType === type);
+}

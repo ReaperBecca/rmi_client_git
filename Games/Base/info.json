@@ -1,9 +1,0 @@
-{
-    "Start": "www/index.html",
-    "Desc": [
-        "This is a test game",
-        "This shows off 3D collision tests"
-    ],
-    "Players": 1,
-    "Achievements": 0
-}
