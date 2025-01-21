@@ -3,105 +3,91 @@ const os = require('os');
 const path = require('path');
 const fs = require('fs');
 
-const WINDOW_JS_URL = 'https://raw.githubusercontent.com/ReaperBecca/rmi_client_git/refs/heads/main/window.js';
-
-async function fetchSubdirConfig() {
-    const subdirUrl = 'https://raw.githubusercontent.com/ReaperBecca/rmi_client_git/refs/heads/main/subdir.json';
-    
-    return new Promise((resolve) => {
-        https.get(subdirUrl, (res) => {
-            let data = '';
-            
-            res.on('data', (chunk) => {
-                data += chunk;
-            });
-            
-            res.on('end', () => {
-                try {
-                    let config = JSON.parse(data);
-                    config = replaceAppDataPlaceholder(config);
-                    resolve(config);
-                } catch {
-                    resolve(getDefaultConfig());
-                }
-            });
-        }).on('error', () => {
-            resolve(getDefaultConfig());
-        });
-    });
-}
-
-function replaceAppDataPlaceholder(config) {
-    const appDataPath = getAppDataPath();
-
-    for (const key in config.app_domain) {
-        if (config.app_domain[key].includes('%AppData%')) {
-            config.app_domain[key] = config.app_domain[key].replace('%AppData%', appDataPath);
-        }
-    }
-
-    return config;
-}
-
 function getAppDataPath() {
     const homeDir = os.homedir();
-    switch (os.platform()) {
+    const platform = os.platform();
+    
+    switch (platform) {
         case 'win32':
             return process.env.APPDATA;
         case 'darwin':
             return path.join(homeDir, 'Library', 'Application Support');
         case 'linux':
+            // Check for ChromeOS
+            if (fs.existsSync('/home/chronos')) {
+                return '/home/chronos/user/';
+            }
+            // Check for Android on Linux (e.g., Android-x86)
+            if (fs.existsSync('/data/data')) {
+                return '/data/data';
+            }
             return path.join(homeDir, '.local', 'share');
         default:
             throw new Error('Unsupported platform');
     }
 }
 
-function getDefaultConfig() {
-    return {
-        protocol: {
-            "reaper://": "https://raw.githubusercontent.com/ReaperBecca/",
-            "app://": "%AppData%/ReaperMediaIndustries/"
-        },
-        app_domain: {
-            "reaper://media.ind/": "reaper://rmi_client_git/refs/heads/main/",
-            "app://media.ind/": "app://RMI_Client/"
-        },
-        pages: {
-            Home: { Default: "Home/", Themes: "Themes/" },
-            Game: { Default: "Games/", Themes: "Themes/" },
-            About: { Default: "About/", Themes: "Themes/" },
-            Account: { Default: "Account/", Themes: "Themes/" }
-        }
-    };
-}
-function buildPageUrl(config, pageKey) {
-    const pageConfig = config.pages[pageKey];
-    if (!pageConfig || !pageConfig.Default) {
-        return 'about:blank';
+function ensureDirectoryExists(dirPath) {
+    if (!fs.existsSync(dirPath)) {
+        fs.mkdirSync(dirPath, { recursive: true });
     }
-
-    // Direct access to string values from config
-    const baseProtocol = config.protocol["reaper://"];
-    const baseDomain = config.app_domain["reaper://media.ind/"];
-    
-    return `${baseProtocol}${baseDomain}${pageConfig.Default}`;
 }
 
 function initializeAppData() {
     const appDataPath = getAppDataPath();
-    const fullAppDataPath = path.join(appDataPath, "ReaperMediaIndustries/RMI_Client/Saves/Settings");
+    const clientDir = path.join(appDataPath, 'reapermediaindustries', 'RMI_Client');
+    const clientThemes = path.join(clientDir, 'Themes');
+    const themesReaperDark = path.join(clientThemes, 'Reaper\'sDarkMode');
+    ensureDirectoryExists(themesReaperDark);
 
-    if (!fs.existsSync(fullAppDataPath)) {
-        fs.mkdirSync(fullAppDataPath, { recursive: true });
-    }
-
-    return fullAppDataPath;
+    return {
+        appDataPath,
+        clientDir,
+        clientThemes,
+        themesReaperDark
+    };
 }
 
+function downloadFile(url, dest, callback) {
+    const file = fs.createWriteStream(dest);
+    https.get(url, (response) => {
+        response.pipe(file);
+        file.on('finish', () => {
+            file.close(callback);
+        });
+    }).on('error', (err) => {
+        fs.unlink(dest, () => {}); // Delete the file on error
+        if (callback) callback(err.message);
+    });
+}
+
+function syncDefaultThemes() {
+    const { themesReapersDarkMode } = initializeAppData();
+    const themeRDMUrls = [
+        'https://raw.githubusercontent.com/ReaperBecca/rmi_client_git/refs/heads/main/Themes/Reaper%27sDarkMode/account.css',
+        'https://raw.githubusercontent.com/ReaperBecca/rmi_client_git/refs/heads/main/Themes/Reaper%27sDarkMode/home.css',
+        'https://raw.githubusercontent.com/ReaperBecca/rmi_client_git/refs/heads/main/Themes/Reaper%27sDarkMode/games.css',
+        'https://raw.githubusercontent.com/ReaperBecca/rmi_client_git/refs/heads/main/Themes/Reaper%27sDarkMode/about.css'
+    ];
+
+    themeRDMUrls.forEach(url => {
+        const fileName = path.basename(url);
+        const destPath = path.join(themesReapersDarkMode, fileName);
+
+        downloadFile(url, destPath, (error) => {
+            if (error) {
+                console.error(`Error downloading ${fileName}: ${error}`);
+            } else {
+                console.log(`Downloaded ${fileName} to ${destPath}`);
+            }
+        });
+    });
+}
+    
+
+
 module.exports = {
-    fetchSubdirConfig,
-    buildPageUrl,
     initializeAppData,
-    WINDOW_JS_URL // Export the constant for use in other modules
+    ensureDirectoryExists,
+    syncDefaultThemes
 };

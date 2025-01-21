@@ -1,74 +1,20 @@
 const { BrowserWindow, Menu } = require('electron');
 const path = require('path');
 const fs = require('fs');
-const { buildPageUrl } = require('./preloader');
+const https = require('https');
+const { ensureDirectoryExists, initializeAppData } = require('./preloader');
 
 class WindowManager {
     constructor() {
         this.windows = new Map();
-    }
-
-    createMainWindow(config) {
-        const mainWindow = new BrowserWindow({
-            width: 800,
-            height: 600,
-            icon: path.join(__dirname, 'current logo.ico'),
-            webPreferences: {
-                nodeIntegration: true,
-                contextIsolation: false,
-                preload: path.join(__dirname, 'preload.js')
-            },
-        });
-
-        mainWindow.maximize();
-
-        const homeUrl = buildPageUrl(config, 'Home');
-        mainWindow.loadURL(homeUrl);
-
-        this.setupMainWindowMenu(mainWindow);
-        this.registerWindow('main', mainWindow, null);
-
-        return mainWindow;
-    }
-
-    createGameWindow(gameFolderName, startPath) {
-        const mainWindow = this.windows.get('main');
-        const gameWindow = new BrowserWindow({
-            width: 1280,
-            height: 720,
-            title: gameFolderName,
-            icon: path.join(__dirname, 'current logo.ico'),
-            parent: mainWindow,
-            webPreferences: {
-                nodeIntegration: true,
-                contextIsolation: false,
-                preload: path.join(__dirname, 'preload.js')
+        this.defaultTemplate = [
+            {
+                label: process.platform === 'darwin' ? 'App' : 'File',
+                submenu: [
+                    { role: 'quit' }
+                ]
             }
-        });
-
-        gameWindow.loadFile(startPath);
-        gameWindow.maximize();
-        
-        this.registerWindow('game', gameWindow, 'main');
-        
-        return gameWindow;
-    }
-
-    registerWindow(id, window, parentId) {
-        this.windows.set(id, window);
-        
-        window.on('closed', () => {
-            this.windows.delete(id);
-            this.closeChildWindows(id);
-        });
-    }
-
-    closeChildWindows(parentId) {
-        for (const [id, window] of this.windows.entries()) {
-            if (window.getParentWindow() === this.windows.get(parentId)) {
-                window.close();
-            }
-        }
+        ];
     }
 
     setupMainWindowMenu(mainWindow) {
@@ -93,7 +39,42 @@ class WindowManager {
         ];
 
         const menu = Menu.buildFromTemplate(menuTemplate);
-        Menu.setApplicationMenu(menu);
+        mainWindow.setMenu(menu);
+    }
+
+    createMainWindow(url = '') {
+        const mainWindow = new BrowserWindow({
+            width: 800,
+            height: 600,
+            webPreferences: {
+                nodeIntegration: false, // Disable Node.js integration for security
+                contextIsolation: true, // Enable context isolation
+            },
+            backgroundColor: '#000000', // Set background to black
+            icon: path.join(__dirname, 'current logo.ico') // Set the window icon
+        });
+
+        if (url && url.startsWith('https://raw.githubusercontent.com/') && url.endsWith('.js')) {
+            // Load the JavaScript file in a browser context using an HTML wrapper
+            const htmlContent = `
+                <html>
+                <head>
+                    <title>Script Execution</title>
+                </head>
+                <body style="background-color:black;">
+                    <script src="${url}"></script>
+                </body>
+                </html>
+            `;
+            mainWindow.loadURL(`data:text/html,${encodeURIComponent(htmlContent)}`);
+        } else if (url) {
+            mainWindow.loadURL(url);
+        } else {
+            mainWindow.loadURL('data:text/html,<body style="background-color:black;"></body>');
+        }
+
+        this.setupMainWindowMenu(mainWindow);
+        this.windows.set('main', mainWindow);
     }
 }
 

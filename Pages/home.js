@@ -1,40 +1,49 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const gamesGrid = document.getElementById('gamesGrid');
-    const newsContainer = document.getElementById('newsContainer');
+  document.addEventListener('DOMContentLoaded', () => {
+      // Navigation handling
+      const buttons = {
+          homeButton: 'home.html',
+          gamesButton: 'games.html',
+          aboutButton: 'about.html',
+          accountButton: 'account.html'
+      };
 
-    // Example function to populate games
-    function populateGames() {
-        const games = [
-            { title: 'Game 1', description: 'Description for game 1' },
-            { title: 'Game 2', description: 'Description for game 2' },
-            // Add more games as needed
-        ];
+      Object.entries(buttons).forEach(([buttonId, path]) => {
+          const button = document.getElementById(buttonId);
+          if (button) {
+              button.addEventListener('click', () => {
+                  window.location.href = path;
+              });
+          }
+      });
 
-        games.forEach(game => {
-            const gameCard = document.createElement('div');
-            gameCard.className = 'game-card';
-            gameCard.innerHTML = `<h3>${game.title}</h3><p>${game.description}</p>`;
-            gamesGrid.appendChild(gameCard);
-        });
-    }
+      // Keep the rest of your existing code for featured games and news updates
+      const featuredGames = [
+          { title: 'Arrows Game', description: 'Exciting adventure game' },
+          { title: 'Game 2', description: 'Strategic puzzle game' },
+          { title: 'Game 3', description: 'Action-packed RPG' }
+      ];
 
-    // Example function to populate news
-    function populateNews() {
-        const newsItems = [
-            { title: 'News 1', content: 'Content for news 1' },
-            { title: 'News 2', content: 'Content for news 2' },
-            // Add more news items as needed
-        ];
+      const gamesGrid = document.getElementById('gamesGrid');
+      featuredGames.forEach(game => {
+          const gameCard = document.createElement('div');
+          gameCard.className = 'game-card';
+          gameCard.innerHTML = `
+              <h3>${game.title}</h3>
+              <p>${game.description}</p>
+          `;
+          gamesGrid.appendChild(gameCard);
+      });
 
-        newsItems.forEach(news => {
-            const newsItem = document.createElement('div');
-            newsItem.className = 'news-item';
-            newsItem.innerHTML = `<h4>${news.title}</h4><p>${news.content}</p>`;
-            newsContainer.appendChild(newsItem);
-        });
-    }
+      const newsContainer = document.getElementById('newsContainer');
+      const newsUpdates = [
+          'New game release coming soon!',
+          'Check out our latest updates',
+          'Community event this weekend'
+      ];
 
-    // Call the functions to populate the page
-    populateGames();
-    populateNews();
-});
+      newsUpdates.forEach(news => {
+          const newsItem = document.createElement('div');
+          newsItem.textContent = news;
+          newsContainer.appendChild(newsItem);
+      });
+  });
