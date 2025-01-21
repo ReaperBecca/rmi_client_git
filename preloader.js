@@ -85,8 +85,42 @@ function syncDefaultThemes() {
     });
 }
   
+// Add this function to preloader.js
+function loadGitHubContent(url) {
+    return new Promise((resolve, reject) => {
+        https.get(url, (response) => {
+            let data = '';
+            response.on('data', (chunk) => data += chunk);
+            response.on('end', () => {
+                resolve('data:text/html;charset=UTF-8,' + encodeURIComponent(data));
+            });
+            response.on('error', reject);
+        });
+    });
+}
+
+function getLocalFile(filePath) {
+    return new Promise((resolve, reject) => {
+        const { clientDir, clientThemes } = initializeAppData();
+        const fullPath = path.join(
+            filePath.includes('Themes') ? clientThemes : clientDir, filePath
+        );
+
+        if (fs.existsSync(fullPath)) {
+            fs.readFile(fullPath, 'utf8', (err, data) => {
+                if (err) reject(err);
+                resolve(data);
+            });
+        } else {
+            reject(new Error(`File not found: ${filePath}`));
+        }
+    });
+}
+
 module.exports = {
     initializeAppData,
     ensureDirectoryExists,
-    syncDefaultThemes
+    syncDefaultThemes,
+    loadGitHubContent,
+    getLocalFile
 };
