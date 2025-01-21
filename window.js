@@ -54,7 +54,7 @@ class WindowManager {
             icon: path.join(__dirname, 'current logo.ico') // Set the window icon
         });
 
-        if (url && url.startsWith('https://raw.githubusercontent.com/') && url.endsWith('.js')) {
+        if (url && url.startsWith('https://raw.githubusercontent.com/') && url.endsWith('.html')) {
             // Load the JavaScript file in a browser context using an HTML wrapper
             const htmlContent = `
                 <html>

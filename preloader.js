@@ -62,18 +62,19 @@ function downloadFile(url, dest, callback) {
 }
 
 function syncDefaultThemes() {
-    const { themesReapersDarkMode } = initializeAppData();
+    const { themesReaperDark } = initializeAppData();  // Changed from themesReapersDarkMode
     const themeRDMUrls = [
-        'https://raw.githubusercontent.com/ReaperBecca/rmi_client_git/refs/heads/main/Themes/Reaper%27sDarkMode/account.css',
-        'https://raw.githubusercontent.com/ReaperBecca/rmi_client_git/refs/heads/main/Themes/Reaper%27sDarkMode/home.css',
-        'https://raw.githubusercontent.com/ReaperBecca/rmi_client_git/refs/heads/main/Themes/Reaper%27sDarkMode/games.css',
-        'https://raw.githubusercontent.com/ReaperBecca/rmi_client_git/refs/heads/main/Themes/Reaper%27sDarkMode/about.css'
+        "https://raw.githubusercontent.com/ReaperBecca/rmi_client_git/refs/heads/main/Themes/Reaper%27sDarkMode/account.css",
+        "https://raw.githubusercontent.com/ReaperBecca/rmi_client_git/refs/heads/main/Themes/Reaper%27sDarkMode/home.css",
+        "https://raw.githubusercontent.com/ReaperBecca/rmi_client_git/refs/heads/main/Themes/Reaper%27sDarkMode/games.css",
+        "https://raw.githubusercontent.com/ReaperBecca/rmi_client_git/refs/heads/main/Themes/Reaper%27sDarkMode/about.css",
+        "https://raw.githubusercontent.com/ReaperBecca/rmi_client_git/refs/heads/main/Themes/Reaper%27sDarkMode/navi.css"
     ];
 
     themeRDMUrls.forEach(url => {
         const fileName = path.basename(url);
-        const destPath = path.join(themesReapersDarkMode, fileName);
-
+        const destPath = path.join(themesReaperDark, fileName);  // Changed from themesReapersDarkMode
+        
         downloadFile(url, destPath, (error) => {
             if (error) {
                 console.error(`Error downloading ${fileName}: ${error}`);
@@ -83,9 +84,7 @@ function syncDefaultThemes() {
         });
     });
 }
-    
-
-
+  
 module.exports = {
     initializeAppData,
     ensureDirectoryExists,
