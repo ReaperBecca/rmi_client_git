@@ -13,7 +13,7 @@ class Navigation {
     loadNavigationStyles() {
         const link = document.createElement('link');
         link.rel = 'stylesheet';
-        link.href = 'https://raw.githubusercontent.com/ReaperBecca/rmi_client_git.github.io/refs/heads/main/Themes/Reaper\'sDarkMode/navi.css';
+        link.href = './Themes/Reaper\'sDarkMode/navi.css';
         document.head.appendChild(link);
     }
 
