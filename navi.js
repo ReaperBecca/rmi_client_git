@@ -1,10 +1,10 @@
 class Navigation {
     constructor() {
         this.buttons = {
-            homeButton: '/Pages/home.html',
-            gamesButton: '/Pages/games.html',
-            aboutButton: '/Pages/about.html',
-            accountButton: '/Pages/account.html'
+            homeButton: './Pages/home.html',
+            gamesButton: './Pages/games.html',
+            aboutButton: './Pages/about.html',
+            accountButton: './Pages/account.html'
         };
         this.initializeNavigation();
         this.setActiveButton('homeButton'); // Set home as default active
