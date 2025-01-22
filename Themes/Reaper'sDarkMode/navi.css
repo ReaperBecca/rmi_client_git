@@ -37,7 +37,7 @@ body {
 
 .content-container {
     width: 100%;
-    height: calc(100vh - 70px); /* Adjust based on navbar height */
+    height: 100%; /* Adjust based on navbar height */
     overflow: hidden;
 }
 
