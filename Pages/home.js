@@ -1,22 +1,6 @@
   document.addEventListener('DOMContentLoaded', () => {
-      // Navigation handling
-      const buttons = {
-          homeButton: 'home.html',
-          gamesButton: 'games.html',
-          aboutButton: 'about.html',
-          accountButton: 'account.html'
-      };
 
-      Object.entries(buttons).forEach(([buttonId, path]) => {
-          const button = document.getElementById(buttonId);
-          if (button) {
-              button.addEventListener('click', () => {
-                  window.location.href = path;
-              });
-          }
-      });
-
-      // Keep the rest of your existing code for featured games and news updates
+      // Featured games and news updates
       const featuredGames = [
           { title: 'Arrows Game', description: 'Exciting adventure game' },
           { title: 'Game 2', description: 'Strategic puzzle game' },
