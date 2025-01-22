@@ -13,7 +13,7 @@ class Navigation {
     async loadNavigationStyles() {
         const link = document.createElement('link');
         link.rel = 'stylesheet';
-        const cssContent = await window.electron.invoke('get-local-file', path.join('Themes', 'Reaper\'sDarkMode', 'navi.css'));
+        const cssContent = await window.electronAPI.getLocalFile('get-local-file', path.join('Themes', 'Reaper\'sDarkMode', 'navi.css'));
         const cssUrl = 'data:text/css;charset=UTF-8,' + encodeURIComponent(cssContent);
         link.href = cssUrl;
         document.head.appendChild(link);
