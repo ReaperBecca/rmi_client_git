@@ -6,6 +6,7 @@ class Navigation {
             aboutButton: './Pages/about.html',
             accountButton: './Pages/account.html'
         };
+        this.contentFrame = document.getElementById('contentFrame');
         this.initializeNavigation();
         this.setActiveButton('homeButton'); // Set home as default active
     }
