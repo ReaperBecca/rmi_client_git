@@ -12,7 +12,7 @@ body {
     padding: 0 20px;
 }
 
-.account-details, .account-settings {
+.about-section, .team-section {
     margin-bottom: 3rem;
     background-color: #2d2d2d;
     border-radius: 10px;
