@@ -1,7 +1,9 @@
+const { contextBridge, ipcRenderer } = require('electron');
 const https = require('https');
 const os = require('os');
 const path = require('path');
 const fs = require('fs');
+const internal = require('stream');
 
 function getAppDataPath() {
     const homeDir = os.homedir();
@@ -25,6 +27,14 @@ function getAppDataPath() {
         default:
             throw new Error('Unsupported platform');
     }
+}
+
+if (contextBridge) {
+    contextBridge.exposeInMainWorld('electronAPI', {
+        getAppDataPath: () => getAppDataPath(),
+        getLocalFile: (filePath) => ipcRenderer.invoke('get-local-file', filePath),
+        syncDefaultThemes: () => syncDefaultThemes(),
+    });    
 }
 
 function ensureDirectoryExists(dirPath) {
@@ -84,8 +94,7 @@ function syncDefaultThemes() {
         });
     });
 }
-  
-// Add this function to preloader.js
+
 function loadGitHubContent(url) {
     return new Promise((resolve, reject) => {
         https.get(url, (response) => {

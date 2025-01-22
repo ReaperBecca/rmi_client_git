@@ -19,27 +19,24 @@ class WindowManager {
         });
     }
 
-    async createMainWindow(url) {
+    async createMainWindow() {
         const mainWindow = new BrowserWindow({
             width: 1280,
             height: 720,
             webPreferences: {
                 nodeIntegration: true,
                 contextIsolation: true,
-                preload: path.join(__dirname, 'preloader.js')
+                preload: path.join(__dirname, 'preloader.js'),
             }
         });
-
-        if (url.startsWith('https://raw.githubusercontent.com/')) {
-            const contentUrl = await loadGitHubContent(url);
-            mainWindow.loadURL(contentUrl);
-        }
-
+    
+        mainWindow.loadURL('https://reaperbecca.github.io/rmi_client_git/navi.html');
+        
         this.setupMainWindowMenu(mainWindow);
         this.windows.set('main', mainWindow);
         
         return mainWindow;
-    }
+    }    
 
     setupMainWindowMenu(mainWindow) {
         const isMac = process.platform === 'darwin';
