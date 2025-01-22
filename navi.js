@@ -1,10 +1,10 @@
 class Navigation {
     constructor() {
         this.buttons = {
-            homeButton: 'https://raw.githubusercontent.com/ReaperBecca/rmi_client_git/refs/heads/main/home.html',
-            gamesButton: 'https://raw.githubusercontent.com/ReaperBecca/rmi_client_git/refs/heads/main/games.html',
-            aboutButton: 'https://raw.githubusercontent.com/ReaperBecca/rmi_client_git/refs/heads/main/about.html',
-            accountButton: 'https://raw.githubusercontent.com/ReaperBecca/rmi_client_git/refs/heads/main/account.html'
+            homeButton: '/Pages/home.html',
+            gamesButton: '/Pages/games.html',
+            aboutButton: '/Pages/about.html',
+            accountButton: '/Pages/account.html'
         };
         this.loadNavigationStyles();
         this.initializeNavigation();
