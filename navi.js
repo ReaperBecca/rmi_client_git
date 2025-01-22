@@ -6,8 +6,8 @@ class Navigation {
             aboutButton: '/Pages/about.html',
             accountButton: '/Pages/account.html'
         };
-        this.loadNavigationStyles();
         this.initializeNavigation();
+        this.setActiveButton('homeButton'); // Set home as default active
     }
 
     initializeNavigation() {
@@ -15,10 +15,26 @@ class Navigation {
             const button = document.getElementById(buttonId);
             if (button) {
                 button.addEventListener('click', () => {
+                    this.setActiveButton(buttonId);
                     window.location.href = path;
                 });
             }
         });
+    }
+
+    setActiveButton(activeId) {
+        // Remove active class from all buttons
+        Object.keys(this.buttons).forEach(buttonId => {
+            const button = document.getElementById(buttonId);
+            if (button) {
+                button.classList.remove('active');
+            }
+        });
+        // Add active class to clicked button
+        const activeButton = document.getElementById(activeId);
+        if (activeButton) {
+            activeButton.classList.add('active');
+        }
     }
 }
 
