@@ -10,12 +10,10 @@ class Navigation {
         this.initializeNavigation();
     }
 
-    async loadNavigationStyles() {
+    loadNavigationStyles() {
         const link = document.createElement('link');
         link.rel = 'stylesheet';
-        const cssContent = await window.electronAPI.getLocalFile('get-local-file', path.join('Themes', 'Reaper\'sDarkMode', 'navi.css'));
-        const cssUrl = 'data:text/css;charset=UTF-8,' + encodeURIComponent(cssContent);
-        link.href = cssUrl;
+        link.href = 'https://raw.githubusercontent.com/ReaperBecca/rmi_client_git.github.io/refs/heads/main/Themes/Reaper\'sDarkMode/navi.css';
         document.head.appendChild(link);
     }
 
