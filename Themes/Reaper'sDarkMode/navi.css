@@ -29,7 +29,7 @@ body {
     transform: translateY(-2px);
 }
 
-.nav-button.active {
+.nav-button:active {
     background-color: #007bff;
     color: #fff;
     box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
