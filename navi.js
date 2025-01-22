@@ -8,7 +8,7 @@ class Navigation {
         };
         this.contentFrame = document.getElementById('contentFrame');
         this.initializeNavigation();
-        this.setActiveButton('homeButton'); // Set home as default active
+        this.setActiveButton('homeButton');
     }
 
     initializeNavigation() {
@@ -17,7 +17,7 @@ class Navigation {
             if (button) {
                 button.addEventListener('click', () => {
                     this.setActiveButton(buttonId);
-                    window.location.href = path;
+                    this.contentFrame.src = path;
                 });
             }
         });
