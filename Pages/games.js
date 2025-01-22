@@ -20,9 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Set up search functionality
     setupSearch();
-    
-    // Set up navigation
-    setupNavigation();
 });
 
 function loadGames() {
@@ -53,7 +50,6 @@ function createGameCard(game) {
                     <div class="game-stats">
                         <span>Version: ${game.Version}</span>
                         <span>Status: ${game.Completion}</span>
-                        <span>Players: ${game.Players}</span>
                         <span>Genre: ${game.Genre.join(', ')}</span>
                         <span>Released: ${game.ReleaseDate}</span>
                     </div>
