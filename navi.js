@@ -10,13 +10,6 @@ class Navigation {
         this.initializeNavigation();
     }
 
-    loadNavigationStyles() {
-        const link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = '/Themes/Reaper\'sDarkMode/navi.css';
-        document.head.appendChild(link);
-    }
-
     initializeNavigation() {
         Object.entries(this.buttons).forEach(([buttonId, path]) => {
             const button = document.getElementById(buttonId);
