@@ -4,6 +4,26 @@ body {
     padding: 0;
 }
 
+.omnibox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    background-color: #333;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+}
+
+.omnibox input {
+    width: 50%;
+    padding: 12px;
+    border-radius: 25px;
+    border: none;
+    background-color: #2d2d2d;
+    color: white;
+    font-size: 1rem;
+}
+
 .navbar {
     display: flex;
     justify-content: center;
