@@ -1,10 +1,12 @@
+import { handleReaperUrl } from "./reaper";
+
 class Navigation {
     constructor() {
         this.buttons = {
-            homeButton: './Pages/home.html',
-            gamesButton: './Pages/games.html',
-            aboutButton: './Pages/about.html',
-            accountButton: './Pages/account.html'
+            homeButton: 'Reaperr://Media.ind/Home',
+            gamesButton: 'Reaperr://Media.ind/Games',
+            aboutButton: 'Reaperr://Media.ind/About',
+            accountButton: 'Reaperr://Media.ind/Account'
         };
         this.contentFrame = document.getElementById('contentFrame');
         this.omniboxInput = document.getElementById('omniboxInput');
@@ -19,7 +21,11 @@ class Navigation {
             if (button) {
                 button.addEventListener('click', () => {
                     this.setActiveButton(buttonId);
-                    this.contentFrame.src = path;
+                    this.omniboxInput.value = reaperUrl;
+                    const result = handleReaperUrl(reaperUrl);
+                    if (result) {
+                        this.contentFrame.src = result;
+                    }
                 });
             }
         });
@@ -37,6 +43,17 @@ class Navigation {
         const activeButton = document.getElementById(activeId);
         if (activeButton) {
             activeButton.classList.add('active');
+        }
+    }
+
+    handleOmniboxInput(event) {
+        const url = event.target.value;
+
+        if (url.startsWith('Reaper://')) {
+            const result = handleReaperUrl(url);
+            if (result) {
+                this.contentFrame.src = result;
+            }
         }
     }
 }
