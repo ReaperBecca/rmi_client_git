@@ -7,6 +7,8 @@ class Navigation {
             accountButton: './Pages/account.html'
         };
         this.contentFrame = document.getElementById('contentFrame');
+        this.omniboxInput = document.getElementById('omniboxInput');
+        this.omniboxInput.value = 'Reaper://Media.ind/';
         this.initializeNavigation();
         this.setActiveButton('homeButton');
     }
