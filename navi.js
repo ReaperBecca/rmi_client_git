@@ -16,7 +16,7 @@ class Navigation {
     }
 
     initializeNavigation() {
-        Object.entries(this.buttons).forEach(([buttonId, path]) => {
+        Object.entries(this.buttons).forEach(([buttonId, reaperUrl]) => {
             const button = document.getElementById(buttonId);
             if (button) {
                 button.addEventListener('click', () => {

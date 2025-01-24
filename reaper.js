@@ -12,9 +12,7 @@ export function handleReaperUrl(url) {
             'Media.ind/Account': './Pages/account.html'
         };
 
-        return urlMappings[path] || null;
-
-        return path;
+        return urlMappings[path]
     }
 
     return null;
