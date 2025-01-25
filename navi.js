@@ -3,10 +3,10 @@ import { handleReaperUrl } from "./reaper";
 class Navigation {
     constructor() {
         this.buttons = {
-            homeButton: 'Reaper://Media.ind/Home',
-            gamesButton: 'Reaper://Media.ind/Games',
-            aboutButton: 'Reaper://Media.ind/About',
-            accountButton: 'Reaper://Media.ind/Account'
+            homeButton: '../Pages/home',
+            gamesButton: '../Pages/games',
+            aboutButton: '../Pages/about',
+            accountButton: '../Pages/account'
         };
         this.contentFrame = document.getElementById('contentFrame');
         this.omniboxInput = document.getElementById('omniboxInput');
@@ -15,7 +15,7 @@ class Navigation {
         this.initializeNavigation();
 
         // set initial state
-        const  defaultUrl = 'Reaper://Media.ind/home'
+        const  defaultUrl = 'Reaper://Media.ind/Home'
         this.omniboxInput.value = defaultUrl;
         this.updateContentFrame(defaultUrl);
         this.setActiveButton('homeButton');
