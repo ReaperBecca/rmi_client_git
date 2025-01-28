@@ -1,30 +1,29 @@
-export function handleReaperUrl(url) {
-
-    if (url.startsWith('Reaper://')) {
-        const path = url.substring('Reaper://'.length);
-        
-        console.error('Reaper URL: ${url}');
-        console.log('Reaper URL path: ${path}');
-
-        return null;
+export class ReaperNavigator {
+    constructor() {
+        this.urlMappings = {
+            'Media.ind/Home': './Pages/home.html',
+            'Media.ind/Games': './Pages/games.html', 
+            'Media.ind/About': './Pages/about.html',
+            'Media.ind/Account': './Pages/account.html'
+        };
     }
 
-    const path = url.substring('Reaper://'.length);
+    handleReaperUrl(url) {
+        if (!url.startsWith('Reaper://')) {
+            return null;
+        }
 
-    console.log('Reaper URL: ${path}');
+        const path = url.substring('Reaper://'.length);
+        console.log(`Navigating to: ${path}`);
 
-    const urlMappings = {
-        'Media.ind/Home': './Pages/home.html',
-        'Media.ind/Games': './Pages/games.html',
-        'Media.ind/About': './Pages/about.html',
-        'Media.ind/Account': './Pages/account.html'
-    };
+        return this.urlMappings[path] || null;
+    }
 
-    if (urlMappings[path]) {
-        return urlMappings[path];
-    } 
+    validateUrl(url) {
+        return url.startsWith('Reaper://') && this.urlMappings[url.substring('Reaper://'.length)];
+    }
 
-    console.warn('Unhandled Reaper URL: ${path}');
-    return null;
-
+    getDefaultUrl() {
+        return 'Reaper://Media.ind/Home';
+    }
 }
