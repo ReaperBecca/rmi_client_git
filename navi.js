@@ -1,26 +1,25 @@
-import { handleReaperUrl } from "./reaper";
+import { ReaperNavigator } from "./reaper";
 
 class Navigation {
     constructor() {
+        this.reaperNavigator = new ReaperNavigator();
         this.buttons = {
-            homeButton: '../Pages/home',
-            gamesButton: '../Pages/games',
-            aboutButton: '../Pages/about',
-            accountButton: '../Pages/account'
+            homeButton: 'Reaper://Media.ind/Home',
+            gamesButton: 'Reaper://Media.ind/Games',
+            aboutButton: 'Reaper://Media.ind/About',
+            accountButton: 'Reaper://Media.ind/Account'
         };
+        
         this.contentFrame = document.getElementById('contentFrame');
         this.omniboxInput = document.getElementById('omniboxInput');
         
-        // initialize navigation
         this.initializeNavigation();
 
-        // set initial state
-        const  defaultUrl = 'Reaper://Media.ind/Home'
+        const defaultUrl = this.reaperNavigator.getDefaultUrl();
         this.omniboxInput.value = defaultUrl;
         this.updateContentFrame(defaultUrl);
         this.setActiveButton('homeButton');
 
-        // Omnibox event listener
         this.omniboxInput.addEventListener('input', this.handleOmniboxInput.bind(this));
     }
 
@@ -54,35 +53,25 @@ class Navigation {
 
     handleOmniboxInput(event) {
         const url = event.target.value;
-
-        if (url.startsWith('Reaper://')) {
-            const result = handleReaperUrl(url);
-            if (result) {
-                this.updateContentFrame = result;
-
-                const activeButton = Object.keys(this.buttons).find(
-                    (buttonId) => this.buttons[buttonId] === url
-                );
-
-                if (activeButton) {
-                    this.setActiveButton(activeButton); // Set the button as active
-                    } else {
-                        this.setActiveButton('homeButton'); // Default to home button if no match
-                    }
-            } else {
-                console.warn(`Unknown Reaper URL: ${url}`);
-                }
+        const result = this.reaperNavigator.handleReaperUrl(url);
+        
+        if (result) {
+            this.updateContentFrame(url);
+            const activeButton = Object.entries(this.buttons)
+                .find(([_, value]) => value === url)?.[0];
+            
+            if (activeButton) {
+                this.setActiveButton(activeButton);
             }
         }
+    }
 
-        updateContentFrame(reaperUrl) {
-            const result = handleReaperUrl(reaperUrl);
-            if (result) {
-                this.contentFrame.src = result;
-            } else {
-                console.warn(`Unknown Reaper URL: ${reaperUrl}`);
-            }
+    updateContentFrame(reaperUrl) {
+        const result = this.reaperNavigator.handleReaperUrl(reaperUrl);
+        if (result) {
+            this.contentFrame.src = result;
         }
+    }
 }
 
 
