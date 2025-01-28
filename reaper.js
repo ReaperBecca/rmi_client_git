@@ -19,6 +19,6 @@ export class ReaperNavigator {
     }
 
     getDefaultUrl() {
-        return this.reaperPrefix + 'Home';
+        return this.reaperPrefix;  // Changed to return just the prefix
     }
 }
