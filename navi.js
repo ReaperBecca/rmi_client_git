@@ -11,6 +11,10 @@ class Navigation {
         this.updateContentFrame(defaultUrl);
 
         this.omniboxInput.addEventListener('input', this.handleOmniboxInput.bind(this));
+        this.omniboxInput.value = defaultUrl;
+        this.updateContentFrame(defaultUrl);
+
+        this.omniboxInput.addEventListener('input', this.handleOmniboxInput.bind(this));
     }
 
     handleOmniboxInput(event) {
