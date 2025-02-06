@@ -7,9 +7,17 @@ body {
     padding: 0;
 }
 
+.header-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex-grow: 1;
+}
+
 header {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     padding: 20px;
     background-color: #333;
@@ -19,15 +27,13 @@ header {
     font-size: 24px;
     font-weight: bold;
     color: gray;
-    flex-direction: column;
-    align-items: center;
-    line-height: 28px;
 }
 
 .title {
     font-size: 28px;
     font-weight: bold;
     color: red;
+    margin-top: 5px;
 }
 
 .user-icon {
