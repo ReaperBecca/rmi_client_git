@@ -19,6 +19,9 @@ header {
     font-size: 24px;
     font-weight: bold;
     color: gray;
+    flex-direction: column;
+    align-items: center;
+    line-height: 28px;
 }
 
 .title {
