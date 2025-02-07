@@ -24,13 +24,13 @@ header {
 }
 
 .logo {
-    font-size: 48px;
+    font-size: 36px;
     font-weight: bold;
     color: gray;
 }
 
 .title {
-    font-size: 48px;
+    font-size: 36px;
     font-weight: bold;
     color: #dc4545;
     margin-top: 5px;
