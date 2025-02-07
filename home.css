@@ -42,13 +42,21 @@ header {
     cursor: pointer;
 }
 
+.user-icon:hover {
+    transform: scale(1.1);
+}
+
 .menu-button {
-    position: absolute;
+    position: fixed;
     top: 20px;
     left: 20px;
     background: none;
     border: none;
     cursor: pointer;
+}
+
+.menu-button:hover {
+    transform: scale(1.1);
 }
 
 main {
@@ -75,4 +83,8 @@ h1 {
     background: none;
     border: none;
     cursor: pointer;
+}
+
+.start-button:hover {
+    transform: scale(1.1);
 }
