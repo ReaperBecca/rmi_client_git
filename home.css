@@ -36,31 +36,6 @@ header {
     margin-top: 5px;
 }
 
-.user-icon {
-    width: 40px;
-    height: 40px;
-    background: none;
-    border: none;
-    cursor: pointer;
-}
-
-.user-icon:hover {
-    transform: scale(1.1);
-}
-
-.menu-button {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    background: none;
-    border: none;
-    cursor: pointer;
-}
-
-.menu-button:hover {
-    transform: scale(1.1);
-}
-
 main {
     display: flex;
     justify-content: center;
