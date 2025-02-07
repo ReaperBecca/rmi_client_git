@@ -1,7 +1,7 @@
 body {
     background-color: #111;
     color: white;
-    font-family: Arial, sans-serif;
+    font-family: Arial Black, sans-serif;
     text-align: center;
     margin: 0;
     padding: 0;
@@ -24,13 +24,13 @@ header {
 }
 
 .logo {
-    font-size: 24px;
+    font-size: 48px;
     font-weight: bold;
     color: gray;
 }
 
 .title {
-    font-size: 28px;
+    font-size: 48px;
     font-weight: bold;
     color: #dc4545;
     margin-top: 5px;
@@ -77,7 +77,12 @@ main {
 
 h1 {
     color: blue;
-    font-size: 24px;
+    font-size: 36px;
+}
+
+p {
+    color: white;
+    font-size: 22px;
 }
 
 .start-button {
